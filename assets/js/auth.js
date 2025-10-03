@@ -262,6 +262,15 @@ class AuthSystem {
         if (window.cartSystem && this.currentUser) {
             setTimeout(() => {
                 window.cartSystem.updateCartUI();
+                console.log('Cart UI updated after login'); // Debug
+            }, 100);
+        }
+        
+        // Trigger wishlist UI update to recreate wishlist icon if needed
+        if (window.wishlistSystem && this.currentUser) {
+            setTimeout(() => {
+                window.wishlistSystem.updateWishlistUI();
+                console.log('Wishlist UI updated after login'); // Debug
             }, 100);
         }
     }

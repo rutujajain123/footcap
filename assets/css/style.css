@@ -8,6 +8,135 @@
  * Enhanced by Rutuja Jain with modern eCommerce features
  */
 
+/* Smooth Scrolling for Navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Active navigation link styling */
+.navbar-link.active {
+  color: var(--bittersweet);
+  font-weight: 600;
+  position: relative;
+}
+
+.navbar-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background: var(--bittersweet);
+  border-radius: 2px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Cart navigation button styling */
+.cart-nav-btn {
+  position: relative;
+}
+
+.cart-nav-btn .cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--red-salsa);
+  color: black;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 1000;
+  min-width: 22px;
+  border: 2px solid var(--red-salsa);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.cart-nav-btn .cart-count.hidden {
+  display: none;
+}
+
+/* Ensure cart icon inherits proper navigation styling */
+.cart-icon .nav-action-btn {
+  color: var(--rich-black-fogra-29);
+}
+
+.cart-icon .nav-action-btn:is(:hover, :focus) {
+  color: var(--bittersweet);
+}
+
+/* Cart modal checkout button styling */
+/* Wishlist navigation button styling */
+.wishlist-nav-btn {
+  position: relative;
+}
+
+.wishlist-nav-btn .wishlist-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--red-salsa);
+  color: black;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 1000;
+  min-width: 22px;
+  border: 2px solid var(--red-salsa);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.wishlist-nav-btn .wishlist-count.hidden {
+  display: none;
+}
+
+/* Ensure wishlist icon inherits proper navigation styling */
+.wishlist-icon .nav-action-btn {
+  color: var(--rich-black-fogra-29);
+}
+
+.wishlist-icon .nav-action-btn:is(:hover, :focus) {
+  color: var(--bittersweet);
+}
+
+/* Heart button active state styling */
+.card-action-btn.wishlist-active {
+  color: var(--red-salsa) !important;
+}
+
+.card-action-btn.wishlist-active ion-icon {
+  color: var(--red-salsa) !important;
+}
+
+/* Heart icon hover effect */
+.card-action-btn[aria-labelledby="card-label-2"]:hover {
+  color: var(--red-salsa);
+}
+
+.card-action-btn[aria-labelledby="card-label-2"]:hover ion-icon {
+  color: var(--red-salsa);
+}
+
 
 
 
@@ -1624,19 +1753,28 @@ a.footer-link:is(:hover, :focus) { color: var(--bittersweet); }
   padding: 20px;
   border-top: 1px solid var(--cultured);
   background: var(--cultured-2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
 }
 
 .cart-total {
   text-align: center;
-  margin-bottom: 15px;
-  font-size: var(--fs-5);
-  color: var(--eerie-black);
+  font-size: var(--fs-4);
+  color: var(--rich-black-fogra-29);
+  font-weight: 600;
 }
 
 .checkout-btn {
+  justify-content: center;
+  min-width: 200px;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
   width: 100%;
   padding: 12px;
-  background-color: var(--red-salsa);
+  background-color: var(--bittersweet);
   color: var(--white);
   border: none;
   border-radius: 5px;
@@ -1647,7 +1785,154 @@ a.footer-link:is(:hover, :focus) { color: var(--bittersweet); }
 }
 
 .checkout-btn:hover {
-  background-color: var(--red-salsa-2);
+  background-color: var(--salmon);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 94, 77, 0.3);
+}
+
+/* Checkout Form Styling */
+.checkout-modal {
+  width: 500px;
+}
+
+.checkout-form {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--rich-black-fogra-29);
+  font-size: var(--fs-6);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--cultured);
+  border-radius: 8px;
+  font-size: var(--fs-6);
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--bittersweet);
+  box-shadow: 0 0 0 3px rgba(255, 94, 77, 0.1);
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 2px solid var(--cultured);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+  border-color: var(--bittersweet);
+  background-color: var(--cultured-2);
+}
+
+.payment-option input[type="radio"] {
+  width: auto;
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+
+.payment-option input[type="radio"]:checked + label {
+  color: var(--bittersweet);
+  font-weight: 600;
+}
+
+.payment-option:has(input:checked) {
+  border-color: var(--bittersweet);
+  background-color: rgba(255, 94, 77, 0.1);
+}
+
+.order-summary {
+  background-color: var(--cultured-2);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.order-summary h4 {
+  margin-bottom: 15px;
+  color: var(--rich-black-fogra-29);
+  font-size: var(--fs-5);
+}
+
+.checkout-items {
+  margin-bottom: 15px;
+}
+
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cultured);
+}
+
+.checkout-item:last-child {
+  border-bottom: none;
+}
+
+.checkout-item-info {
+  flex: 1;
+}
+
+.checkout-item-name {
+  font-weight: 600;
+  color: var(--rich-black-fogra-29);
+  margin-bottom: 5px;
+}
+
+.checkout-item-details {
+  font-size: var(--fs-7);
+  color: var(--davys-gray);
+}
+
+.checkout-item-price {
+  font-weight: 600;
+  color: var(--bittersweet);
+}
+
+.checkout-total {
+  text-align: center;
+  padding-top: 15px;
+  border-top: 2px solid var(--bittersweet);
+  font-size: var(--fs-4);
+  color: var(--rich-black-fogra-29);
+}
+
+.order-now-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 15px;
+  font-size: var(--fs-5);
+  font-weight: 600;
+  margin-top: 20px;
 }
 
 .empty-cart {

@@ -66,27 +66,27 @@
         <ul class="navbar-list">
 
           <li class="navbar-item">
-            <a href="#" class="navbar-link">Home</a>
+            <a href="#home" class="navbar-link">Home</a>
           </li>
 
           <li class="navbar-item">
-            <a href="#" class="navbar-link">About</a>
+            <a href="#about" class="navbar-link">About</a>
           </li>
 
           <li class="navbar-item">
-            <a href="#" class="navbar-link">Products</a>
+            <a href="#products" class="navbar-link">Products</a>
           </li>
 
           <li class="navbar-item">
-            <a href="#" class="navbar-link">Shop</a>
+            <a href="#shop" class="navbar-link">Shop</a>
           </li>
 
           <li class="navbar-item">
-            <a href="#" class="navbar-link">Blog</a>
+            <a href="#blog" class="navbar-link">Blog</a>
           </li>
 
           <li class="navbar-item">
-            <a href="#" class="navbar-link">Contact</a>
+            <a href="#contact" class="navbar-link">Contact</a>
           </li>
 
         </ul>
@@ -148,7 +148,7 @@
         - #HERO
       -->
 
-      <section class="section hero" style="background-image: url('./assets/images/hero-banner.png')">
+      <section id="home" class="section hero" style="background-image: url('./assets/images/hero-banner.png')">
         <div class="container">
 
           <h2 class="h1 hero-title">
@@ -179,7 +179,7 @@
         - #COLLECTION
       -->
 
-      <section class="section collection">
+      <section id="shop" class="section collection">
         <div class="container">
 
           <ul class="collection-list has-scrollbar">
@@ -234,7 +234,7 @@
         - #PRODUCT
       -->
 
-      <section class="section product">
+      <section id="products" class="section product">
         <div class="container">
 
           <h2 class="h2 section-title">Bestsellers Products</h2>
@@ -832,7 +832,7 @@
         - #SPECIAL
       -->
 
-      <section class="section special">
+      <section id="blog" class="section special">
         <div class="container">
 
           <div class="special-banner" style="background-image: url('./assets/images/special-banner.jpg')">
@@ -1124,7 +1124,7 @@
         - #SERVICE
       -->
 
-      <section class="section service">
+      <section id="about" class="section service">
         <div class="container">
 
           <ul class="service-list">
@@ -1305,7 +1305,7 @@
     - #FOOTER
   -->
 
-  <footer class="footer">
+  <footer id="contact" class="footer">
 
     <div class="footer-top section">
       <div class="container">
@@ -1583,10 +1583,76 @@
       </div>
       <div class="cart-footer">
         <div class="cart-total">
-          <strong>Total: $<span id="cartTotal">0.00</span></strong>
+          <strong>Total: ₹<span id="cartTotal">0</span></strong>
         </div>
-        <button class="checkout-btn">Proceed to Checkout</button>
+        <button class="btn btn-primary checkout-btn" onclick="cartSystem.openCheckoutForm()">
+          <span>Checkout</span>
+          <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+        </button>
       </div>
+    </div>
+  </div>
+
+  <!-- Checkout Form Modal -->
+  <div id="checkoutModal" class="cart-modal checkout-modal">
+    <div class="cart-modal-content">
+      <div class="cart-header">
+        <h3>Checkout</h3>
+        <span class="cart-close checkout-close">&times;</span>
+      </div>
+      <form id="checkoutForm" class="checkout-form">
+        <div class="form-group">
+          <label for="customerName">Full Name</label>
+          <input type="text" id="customerName" name="customerName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="customerPhone">Phone Number</label>
+          <input type="tel" id="customerPhone" name="customerPhone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="customerAddress">Delivery Address</label>
+          <textarea id="customerAddress" name="customerAddress" rows="3" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>Payment Method</label>
+          <div class="payment-methods">
+            <div class="payment-option">
+              <input type="radio" id="paytm" name="paymentMethod" value="paytm" required>
+              <label for="paytm">Paytm</label>
+            </div>
+            <div class="payment-option">
+              <input type="radio" id="gpay" name="paymentMethod" value="gpay">
+              <label for="gpay">Google Pay</label>
+            </div>
+            <div class="payment-option">
+              <input type="radio" id="phonepe" name="paymentMethod" value="phonepe">
+              <label for="phonepe">PhonePe</label>
+            </div>
+            <div class="payment-option">
+              <input type="radio" id="cod" name="paymentMethod" value="cod">
+              <label for="cod">Cash on Delivery</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="order-summary">
+          <h4>Order Summary</h4>
+          <div id="checkoutItems" class="checkout-items">
+            <!-- Items will be populated here -->
+          </div>
+          <div class="checkout-total">
+            <strong>Total Amount: ₹<span id="checkoutTotal">0</span></strong>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary order-now-btn">
+          <span>Order Now</span>
+          <ion-icon name="checkmark-outline" aria-hidden="true"></ion-icon>
+        </button>
+      </form>
     </div>
   </div>
 
@@ -1598,6 +1664,7 @@
   <script src="./assets/js/cart.js"></script>
   <script src="./assets/js/wishlist.js"></script>
   <script src="./assets/js/typing-effect.js"></script>
+  <script src="./assets/js/navigation.js"></script>
 
   <!-- 
     - ionicon link

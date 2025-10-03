@@ -131,29 +131,44 @@ class WishlistSystem {
     extractProductInfo(productCard) {
         try {
             // Extract product information from the card
-            const imageEl = productCard.querySelector('.product-banner img, .showcase-banner img');
-            const nameEl = productCard.querySelector('.product-title, .showcase-title');
-            const priceEl = productCard.querySelector('.price, .showcase-price');
+            const imageEl = productCard.querySelector('.card-banner img, .showcase-banner img');
+            const nameEl = productCard.querySelector('.card-title a, .showcase-title');
+            const priceEl = productCard.querySelector('.card-price, .showcase-price');
             const badgeEl = productCard.querySelector('.card-badge, .showcase-badge');
 
+            console.log('Extracting wishlist product info:', {
+                imageEl: imageEl?.src,
+                nameEl: nameEl?.textContent,
+                priceEl: priceEl?.textContent,
+                badgeEl: badgeEl?.textContent
+            });
+
             if (!imageEl || !nameEl || !priceEl) {
-                console.warn('Could not extract product info from card');
+                console.warn('Could not extract product info from card for wishlist', {
+                    hasImage: !!imageEl,
+                    hasName: !!nameEl,
+                    hasPrice: !!priceEl,
+                    cardHTML: productCard.outerHTML.substring(0, 500)
+                });
                 return null;
             }
 
             // Extract price (remove currency symbols and get first price if multiple)
             const priceText = priceEl.textContent.trim();
-            const priceMatch = priceText.match(/\$?(\d+\.?\d*)/);
-            const price = priceMatch ? parseFloat(priceMatch[1]) : 0;
+            const priceMatch = priceText.match(/[\$₹]?(\d+[,\.]?\d*)/);
+            const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
 
-            return {
-                id: `wishlist_${nameEl.textContent.trim().replace(/\s+/g, '_').toLowerCase()}`,
+            const product = {
+                id: `wishlist_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                 name: nameEl.textContent.trim(),
                 price: price,
                 image: imageEl.src,
                 badge: badgeEl ? badgeEl.textContent.trim() : null,
                 addedAt: new Date().toISOString()
             };
+
+            console.log('Extracted wishlist product:', product);
+            return product;
         } catch (error) {
             console.error('Error extracting product info for wishlist:', error);
             return null;
@@ -172,9 +187,23 @@ class WishlistSystem {
     }
 
     removeFromWishlist(product) {
-        this.wishlist = this.wishlist.filter(item => item.id !== product.id);
+        // Handle both product object and product ID
+        const productId = typeof product === 'string' ? product : product.id;
+        
+        this.wishlist = this.wishlist.filter(item => item.id !== productId);
         this.saveWishlistToStorage();
         this.updateWishlistUI();
+        
+        // Update wishlist modal if it's open
+        const wishlistModal = document.getElementById('wishlistModal');
+        if (wishlistModal) {
+            const wishlistItems = wishlistModal.querySelector('#wishlistItems');
+            if (wishlistItems) {
+                wishlistItems.innerHTML = this.renderWishlistItems();
+            }
+        }
+        
+        console.log('Removed from wishlist:', productId);
     }
 
     isInWishlist(product) {
@@ -191,6 +220,7 @@ class WishlistSystem {
     updateWishlistUI() {
         this.updateWishlistCount();
         this.updateHeartButtonStates();
+        this.addWishlistIconToNavbar();
     }
 
     updateWishlistCount() {
@@ -205,6 +235,139 @@ class WishlistSystem {
             // Hide badge if count is 0
             wishlistBadge.style.display = count > 0 ? 'block' : 'none';
         }
+        
+        // Update wishlist count in navbar icon if it exists
+        const wishlistCountElements = document.querySelectorAll('.wishlist-count');
+        wishlistCountElements.forEach(el => {
+            el.textContent = count;
+            if (count > 0) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        });
+    }
+
+    addWishlistIconToNavbar() {
+        // Remove existing wishlist icons to prevent duplicates
+        const existingWishlistIcons = document.querySelectorAll('.wishlist-icon');
+        existingWishlistIcons.forEach(icon => icon.remove());
+        
+        // Only create wishlist icon if user is logged in
+        if (!window.authSystem.isLoggedIn()) {
+            return;
+        }
+        
+        const userStatus = document.querySelector('.user-status.logged-in');
+        const navActionList = document.querySelector('.nav-action-list');
+        const cartIcon = document.querySelector('.cart-icon');
+        
+        if (userStatus && navActionList) {
+            const wishlistIcon = document.createElement('li');
+            wishlistIcon.className = 'wishlist-icon';
+            
+            const wishlistCount = this.wishlist.length;
+            wishlistIcon.innerHTML = `
+                <button class="nav-action-btn wishlist-nav-btn">
+                    <ion-icon name="heart-outline" aria-hidden="true"></ion-icon>
+                    <span class="nav-action-text">Wishlist</span>
+                    <span class="wishlist-count ${wishlistCount > 0 ? '' : 'hidden'}">${wishlistCount}</span>
+                </button>
+            `;
+            
+            wishlistIcon.querySelector('.wishlist-nav-btn').addEventListener('click', () => this.openWishlistModal());
+            
+            // Insert wishlist icon before cart icon (if cart exists) or before user status
+            if (cartIcon) {
+                navActionList.insertBefore(wishlistIcon, cartIcon);
+            } else {
+                const userStatusLi = userStatus.closest('li');
+                if (userStatusLi) {
+                    navActionList.insertBefore(wishlistIcon, userStatusLi);
+                }
+            }
+            
+            console.log('Wishlist icon added to navbar with count:', wishlistCount);
+        }
+    }
+
+    openWishlistModal() {
+        console.log('Opening wishlist modal, current wishlist:', this.wishlist); // Debug
+        // Create and show wishlist modal
+        this.createWishlistModal();
+    }
+
+    createWishlistModal() {
+        console.log('Creating wishlist modal with items:', this.wishlist); // Debug
+        
+        // Remove existing modal if any
+        const existingModal = document.getElementById('wishlistModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        const modal = document.createElement('div');
+        modal.id = 'wishlistModal';
+        modal.className = 'cart-modal'; // Reuse cart modal styling
+        modal.innerHTML = `
+            <div class="cart-modal-content">
+                <div class="cart-header">
+                    <h3>My Wishlist (${this.wishlist.length} items)</h3>
+                    <span class="cart-close wishlist-close">&times;</span>
+                </div>
+                <div id="wishlistItems" class="cart-items">
+                    ${this.renderWishlistItems()}
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Add event listeners
+        modal.querySelector('.wishlist-close').addEventListener('click', () => {
+            modal.classList.remove('show');
+            setTimeout(() => modal.remove(), 300);
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.remove(), 300);
+            }
+        });
+
+        // Show modal with proper animation
+        setTimeout(() => {
+            modal.style.display = 'block';
+            modal.classList.add('show');
+        }, 10);
+        
+        console.log('Wishlist modal created and displayed'); // Debug
+    }
+
+    renderWishlistItems() {
+        if (this.wishlist.length === 0) {
+            return `
+                <div class="empty-cart">
+                    <ion-icon name="heart-outline" style="font-size: 48px; color: var(--davys-gray);"></ion-icon>
+                    <p>Your wishlist is empty</p>
+                    <button onclick="document.getElementById('wishlistModal').remove()" class="auth-btn">Continue Shopping</button>
+                </div>
+            `;
+        }
+
+        return this.wishlist.map(item => `
+            <div class="cart-item wishlist-item" data-id="${item.id}">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                <div class="cart-item-details">
+                    <h4>${item.name}</h4>
+                    <p class="cart-item-price">₹${item.price}</p>
+                </div>
+                <button class="remove-from-wishlist" onclick="wishlistSystem.removeFromWishlist('${item.id}')">
+                    <ion-icon name="trash-outline"></ion-icon>
+                </button>
+            </div>
+        `).join('');
     }
 
     updateHeartButton(buttonElement, isLiked) {
@@ -335,4 +498,28 @@ const wishlistSystem = new WishlistSystem();
 console.log('Wishlist system loaded:', wishlistSystem); // Debug log
 
 // Make it globally available
+window.wishlistSystem = wishlistSystem;
+
+// Add global debug functions
+window.debugWishlist = () => {
+    console.log('=== WISHLIST DEBUG ===');
+    console.log('Wishlist items:', window.wishlistSystem.wishlist);
+    console.log('Total items:', window.wishlistSystem.wishlist.length);
+    console.log('User logged in:', window.authSystem?.isLoggedIn());
+    console.log('Individual items:');
+    window.wishlistSystem.wishlist.forEach((item, index) => {
+        console.log(`  ${index + 1}. ${item.name} - ₹${item.price}`);
+    });
+    console.log('=====================');
+};
+
+window.openWishlist = () => window.wishlistSystem.openWishlistModal();
+window.clearWishlist = () => {
+    window.wishlistSystem.wishlist = [];
+    window.wishlistSystem.saveWishlistToStorage();
+    window.wishlistSystem.updateWishlistUI();
+    console.log('Wishlist cleared');
+};
+
+console.log('Wishlist debug functions available: debugWishlist(), openWishlist(), clearWishlist()');
 window.wishlistSystem = wishlistSystem;
