@@ -177,20 +177,30 @@ body {
   gap: 5px;
   padding: 14px 25px;
   border: 1px solid var(--border-color, var(--bittersweet));
+  transition: all 0.3s ease;
+  transform: scale(1);
 }
 
 .btn-primary:is(:hover, :focus) {
   --background: var(--salmon);
   --border-color: var(--salmon);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 94, 77, 0.3);
 }
 
 .btn-secondary {
   --background: transparent;
   --border-color: var(--black);
   --color: var(--black);
+  transition: all 0.3s ease;
+  transform: scale(1);
 }
 
-.btn-secondary:is(:hover, :focus) { --background: hsla(0, 0%, 0%, 0.1); }
+.btn-secondary:is(:hover, :focus) { 
+  --background: hsla(0, 0%, 0%, 0.1); 
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
 
 .has-scrollbar {
   display: flex;
@@ -382,6 +392,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding-block: 20px;
+  position: relative;
 }
 
 .nav-open-btn {
@@ -1643,12 +1654,15 @@ a.footer-link:is(:hover, :focus) { color: var(--bittersweet); }
 }
 
 /* User Status Indicator */
+.user-status-item {
+  display: flex;
+  align-items: center;
+}
+
 .user-status {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto;
-  margin-right: auto;
   padding: 0;
   background: transparent;
   border-radius: 0;
@@ -1660,8 +1674,6 @@ a.footer-link:is(:hover, :focus) { color: var(--bittersweet); }
   color: var(--eerie-black);
   padding: 8px 15px;
   border-radius: 20px;
-  margin-left: auto;
-  margin-right: auto;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1679,17 +1691,43 @@ a.footer-link:is(:hover, :focus) { color: var(--bittersweet); }
   border: 1px solid var(--border-color, var(--bittersweet));
   border-radius: 5px;
   cursor: pointer;
-  transition: var(--transition-1);
+  transition: all 0.3s ease;
   text-decoration: none;
   font-weight: var(--fw-500);
   min-width: auto;
   width: auto;
+  transform: scale(1);
+}
+
+/* When used as nav-action-btn, adjust for text content */
+.nav-action-btn.auth-signup-btn {
+  background: var(--bittersweet);
+  color: var(--white);
+  border: 1px solid var(--bittersweet);
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: var(--fs-7);
+  min-width: 80px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.nav-action-btn.auth-signup-btn .nav-action-text {
+  color: var(--white);
+  font-weight: var(--fw-500);
+  display: block;
 }
 
 .auth-signup-btn:is(:hover, :focus) {
   --background: var(--salmon);
   --border-color: var(--salmon);
-  transform: translateY(-2px);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 94, 77, 0.4);
+}
+
+.nav-action-btn.auth-signup-btn:is(:hover, :focus) {
+  background: var(--salmon);
+  border-color: var(--salmon);
 }
 
 .logout-btn {
@@ -1845,4 +1883,9 @@ a.footer-link:is(:hover, :focus) { color: var(--bittersweet); }
     margin: 20% auto;
     width: 95%;
   }
+}
+
+/* Typing Effect */
+#typing-text-1, #typing-text-2 {
+  display: inline-block;
 }

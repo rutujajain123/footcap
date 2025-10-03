@@ -2,6 +2,7 @@
 class AuthSystem {
     constructor() {
         this.currentUser = null;
+        this.eventListenersSetup = false;
         this.init();
     }
 
@@ -52,6 +53,9 @@ class AuthSystem {
             console.log('Login form submitted!'); // Debug
             this.handleLogin(e);
         });
+
+        // Mark event listeners as set up
+        this.eventListenersSetup = true;
     }
 
     openAuthModal() {
@@ -117,7 +121,7 @@ class AuthSystem {
 
         // Save user
         users.push(newUser);
-        localStorage.setItem('walkwave_users', JSON.stringify(users));
+        localStorage.setItem('footcap_users', JSON.stringify(users));
 
         // Login the user
         this.loginUser(newUser);
@@ -145,7 +149,7 @@ class AuthSystem {
 
     loginUser(user) {
         this.currentUser = user;
-        localStorage.setItem('walkwave_current_user', JSON.stringify(user));
+        localStorage.setItem('footcap_current_user', JSON.stringify(user));
         this.updateUserStatus();
         
         // Dispatch custom event for other components
@@ -154,7 +158,7 @@ class AuthSystem {
 
     logout() {
         this.currentUser = null;
-        localStorage.removeItem('walkwave_current_user');
+        localStorage.removeItem('footcap_current_user');
         
         // Show default cart button again
         const defaultCartBtn = document.getElementById('defaultCartBtn');
@@ -181,15 +185,15 @@ class AuthSystem {
     }
 
     loadUserFromStorage() {
-        const userData = localStorage.getItem('walkwave_current_user');
+        const userData = localStorage.getItem('footcap_current_user');
         if (userData) {
             this.currentUser = JSON.parse(userData);
         }
     }
 
     updateUserStatus() {
-        // Remove existing user status and cart icons
-        const existingStatus = document.querySelector('.user-status');
+        // Remove existing user status items
+        const existingStatus = document.querySelector('.user-status-item');
         if (existingStatus) {
             existingStatus.remove();
         }
@@ -218,30 +222,34 @@ class AuthSystem {
             }
         }
 
-        // Add new user status to header
-        const header = document.querySelector('.header .container');
-        if (!header) return;
-
-        const userStatus = document.createElement('div');
-        userStatus.className = 'user-status';
+        // Add new user status to navigation
+        const navActionList = document.querySelector('.nav-action-list');
+        if (!navActionList) return;
 
         if (this.currentUser) {
-            userStatus.classList.add('logged-in');
-            userStatus.innerHTML = `
-                <span>Welcome, ${this.currentUser.name}</span>
-                <button class="logout-btn" onclick="authSystem.logout()">Logout</button>
+            // Create a list item for logged-in state
+            const userStatusLi = document.createElement('li');
+            userStatusLi.className = 'user-status-item';
+            userStatusLi.innerHTML = `
+                <div class="user-status logged-in">
+                    <span>Welcome, ${this.currentUser.name}</span>
+                    <button class="logout-btn" onclick="authSystem.logout()">Logout</button>
+                </div>
             `;
+            navActionList.appendChild(userStatusLi);
             console.log('Created logout button for user:', this.currentUser.name); // Debug
         } else {
-            userStatus.innerHTML = `
-                <button class="btn btn-primary auth-signup-btn" onclick="authSystem.openAuthModal()">
-                    <span>Sign Up</span>
+            // Create a list item for signup button
+            const userStatusLi = document.createElement('li');
+            userStatusLi.className = 'user-status-item';
+            userStatusLi.innerHTML = `
+                <button class="nav-action-btn auth-signup-btn" onclick="authSystem.openAuthModal()">
+                    <span class="nav-action-text">Sign Up</span>
                 </button>
             `;
+            navActionList.appendChild(userStatusLi);
             console.log('Created signup button'); // Debug
         }
-
-        header.appendChild(userStatus);
         
         // Trigger cart UI update to recreate cart icon if needed
         if (window.cartSystem && this.currentUser) {
@@ -252,7 +260,7 @@ class AuthSystem {
     }
 
     getUsers() {
-        const usersData = localStorage.getItem('walkwave_users');
+        const usersData = localStorage.getItem('footcap_users');
         return usersData ? JSON.parse(usersData) : [];
     }
 
@@ -335,13 +343,14 @@ window.authSystem = authSystem;
 document.addEventListener('DOMContentLoaded', function() {
     // Ensure forms are connected even if not caught by main setup
     document.addEventListener('submit', function(e) {
-        if (e.target.id === 'signupForm') {
+        // Only handle if the main event listeners haven't been set up
+        if (e.target.id === 'signupForm' && !window.authSystem.eventListenersSetup) {
             console.log('Signup form submitted via delegation!'); // Debug
             e.preventDefault();
             if (window.authSystem) {
                 window.authSystem.handleSignup(e);
             }
-        } else if (e.target.id === 'loginForm') {
+        } else if (e.target.id === 'loginForm' && !window.authSystem.eventListenersSetup) {
             console.log('Login form submitted via delegation!'); // Debug
             e.preventDefault();
             if (window.authSystem) {

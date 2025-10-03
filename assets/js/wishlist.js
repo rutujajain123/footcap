@@ -245,14 +245,14 @@ class WishlistSystem {
     saveWishlistToStorage() {
         if (window.authSystem.isLoggedIn()) {
             const userId = window.authSystem.getCurrentUser().id;
-            localStorage.setItem(`walkwave_wishlist_${userId}`, JSON.stringify(this.wishlist));
+            localStorage.setItem(`footcap_wishlist_${userId}`, JSON.stringify(this.wishlist));
         }
     }
 
     loadWishlistFromStorage() {
         if (window.authSystem.isLoggedIn()) {
             const userId = window.authSystem.getCurrentUser().id;
-            const wishlistData = localStorage.getItem(`walkwave_wishlist_${userId}`);
+            const wishlistData = localStorage.getItem(`footcap_wishlist_${userId}`);
             this.wishlist = wishlistData ? JSON.parse(wishlistData) : [];
         } else {
             this.wishlist = [];

@@ -278,14 +278,14 @@ class CartSystem {
     saveCartToStorage() {
         if (window.authSystem.isLoggedIn()) {
             const userId = window.authSystem.getCurrentUser().id;
-            localStorage.setItem(`walkwave_cart_${userId}`, JSON.stringify(this.cart));
+            localStorage.setItem(`footcap_cart_${userId}`, JSON.stringify(this.cart));
         }
     }
 
     loadCartFromStorage() {
         if (window.authSystem.isLoggedIn()) {
             const userId = window.authSystem.getCurrentUser().id;
-            const cartData = localStorage.getItem(`walkwave_cart_${userId}`);
+            const cartData = localStorage.getItem(`footcap_cart_${userId}`);
             this.cart = cartData ? JSON.parse(cartData) : [];
         } else {
             this.cart = [];
