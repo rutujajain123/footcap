@@ -9,6 +9,7 @@
   <br />
 
   <h2 align="center">Modern eCommerce Website with Complete Shopping Experience</h2>
+  <h2>Watch video here : https://drive.google.com/drive/folders/1Ri3rC9YKqG_3f42TddvZByPS82Ofa065?q=sharedwith:public%20parent:1Ri3rC9YKqG_3f42TddvZByPS82Ofa065</h2>
 
   Footcap is a fully responsive eCommerce website featuring advanced shopping cart functionality, user authentication, wishlist management, checkout system, and smooth navigation. Built with vanilla JavaScript, HTML5, and CSS3.
 
