@@ -1,6 +1,6 @@
-# Essential Stuff
+# Essential Stuff to remember
 
-## Html import links
+## Html import links: 
 
 Google font
 
@@ -21,7 +21,7 @@ Ionicon
 
 ---
 
-## Colors
+## Colors:
 
 ``` css
 --maximum-blue-green_10: hsla(185, 75%, 45%, 0.1);
@@ -39,7 +39,7 @@ Ionicon
 --onyx: hsl(0, 0%, 27%);
 ```
 
-## Typography
+## Typography:
 
 ``` css
 --ff-roboto: 'Roboto', sans-serif;
@@ -60,7 +60,7 @@ Ionicon
 --fw-700: 700;
 ```
 
-## Transition
+## Transition:
 
 ``` css
 --transition-1: 0.25s ease;
