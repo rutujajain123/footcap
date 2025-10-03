@@ -11,7 +11,7 @@
 
   Footcap is a fully responsive eCommerce website with enhanced features, including user authentication, shopping cart, wishlist functionality, and dynamic typing effects. <br />Built using HTML, CSS, and JavaScript with modern interactive features.
 
-
+<h3>Live Demo : https://68e010981450a767fa94ec9a--footcap1.netlify.app/</h3>
 
 </div>
 
