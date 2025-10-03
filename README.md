@@ -14,7 +14,7 @@
 
   **🔗 Repository:** [https://github.com/rutujajain123/footcap.git](https://github.com/rutujajain123/footcap.git)
 
-
+<h3>Live Demo : https://68e010981450a767fa94ec9a--footcap1.netlify.app/</h3>
 
 </div>
 
