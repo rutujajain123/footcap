@@ -1,4 +1,10 @@
 // Shopping Cart System
+/**
+ * cart.js - Shopping Cart Management System
+ * Features: Add/Remove items, User-specific carts, Indian Rupee support
+ * Requires user authentication for all cart operations
+ */
+
 class CartSystem {
     constructor() {
         this.cart = [];
@@ -92,8 +98,8 @@ class CartSystem {
 
             // Extract price (remove currency symbols and get first price if multiple)
             const priceText = priceEl.textContent.trim();
-            const priceMatch = priceText.match(/\$?(\d+\.?\d*)/);
-            const price = priceMatch ? parseFloat(priceMatch[1]) : 0;
+            const priceMatch = priceText.match(/[\$₹]?(\d+[,\.]?\d*)/);
+            const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
 
             return {
                 id: `product_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -255,7 +261,7 @@ class CartSystem {
                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                 <div class="cart-item-details">
                     <div class="cart-item-name">${item.name}</div>
-                    <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                    <div class="cart-item-price">₹${item.price.toLocaleString('en-IN')}</div>
                     <div class="cart-item-quantity">
                         <button class="quantity-btn" onclick="cartSystem.updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
                         <span>${item.quantity}</span>
@@ -271,7 +277,7 @@ class CartSystem {
         const total = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const totalEl = document.getElementById('cartTotal');
         if (totalEl) {
-            totalEl.textContent = total.toFixed(2);
+            totalEl.textContent = `₹${total.toLocaleString('en-IN')}`;
         }
     }
 

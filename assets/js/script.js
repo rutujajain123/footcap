@@ -1,3 +1,8 @@
+/**
+ * script.js - Core Footcap Website Functionality
+ * Enhanced with authentication integration and modern features
+ */
+
 'use strict';
 
 

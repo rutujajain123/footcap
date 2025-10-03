@@ -1,5 +1,12 @@
+/**
+ * typing-effect.js - Dynamic Text Animation System
+ * Features: Sequential typing animation for hero text
+ * Clean typing effect without cursor for smooth user experience
+ */
+
 // Typing Effect for Hero Title
 class TypingEffect {
+    // Initialize typing effect with customizable speed
     constructor(element, text, speed = 100) {
         this.element = element;
         this.text = text;

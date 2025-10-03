@@ -1,4 +1,10 @@
 // Authentication System
+/**
+ * auth.js - User Authentication System
+ * Features: Signup, Login, Session Management, localStorage Integration
+ * Secure user data handling for eCommerce functionality
+ */
+
 class AuthSystem {
     constructor() {
         this.currentUser = null;
@@ -88,6 +94,7 @@ class AuthSystem {
     async handleSignup(e) {
         e.preventDefault();
         
+        // Extract and validate user input data
         const name = document.getElementById('signupName').value.trim();
         const email = document.getElementById('signupEmail').value.trim();
         const password = document.getElementById('signupPassword').value;

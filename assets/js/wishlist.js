@@ -1,4 +1,10 @@
 // Wishlist System
+/**
+ * wishlist.js - Product Wishlist/Favorites System
+ * Features: Heart icon toggles, User-specific wishlists, Authentication required
+ * Persistent storage using localStorage with user-specific data
+ */
+
 class WishlistSystem {
     constructor() {
         this.wishlist = [];

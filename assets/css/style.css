@@ -1,9 +1,11 @@
 /*-----------------------------------*\
- * #style.css
+ * #style.css - Enhanced Footcap eCommerce
+ * Features: Auth System, Cart, Wishlist, Animations
 \*-----------------------------------*/
 
 /**
  * copyright 2022 codewithsadee
+ * Enhanced by Rutuja Jain with modern eCommerce features
  */
 
 
@@ -880,7 +882,8 @@ a.footer-link:is(:hover, :focus) { color: var(--bittersweet); }
   padding-right: 120px;
 }
 
-.newsletter-form .btn-primary {
+.newsletter-form /* Enhanced Button Animations - Pop-up hover effects */
+.btn-primary {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1885,7 +1888,7 @@ a.footer-link:is(:hover, :focus) { color: var(--bittersweet); }
   }
 }
 
-/* Typing Effect */
+/* Dynamic Typing Effect - Hero text animation */
 #typing-text-1, #typing-text-2 {
   display: inline-block;
 }
