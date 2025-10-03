@@ -9,15 +9,15 @@
 
   <h2 align="center">Footcap - Enhanced eCommerce Website</h2>
 
-  Footcap is a fully responsive eCommerce website with enhanced features including user authentication, shopping cart, wishlist functionality, and dynamic typing effects. <br />Built using HTML, CSS, and JavaScript with modern interactive features.
+  Footcap is a fully responsive eCommerce website with enhanced features, including user authentication, shopping cart, wishlist functionality, and dynamic typing effects. <br />Built using HTML, CSS, and JavaScript with modern interactive features.
 
-  <a href="#"><strong>➥ Live Demo</strong></a>
+
 
 </div>
 
 <br />
 
-## 🚀 Features
+## Features
 
 - **User Authentication System**
   - User registration and login
@@ -42,7 +42,7 @@
 
 - **Responsive Design**
   - Mobile-first approach
-  - Tablet and desktop optimized
+  - Tablet and desktop optimised
   - Cross-browser compatibility
 
 ## Technology Stack
